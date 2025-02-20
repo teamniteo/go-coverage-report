@@ -9,7 +9,7 @@ inputs:
   version:
     description: 'The exact version tag of the go-coverage-report tool to use.'
     required: true
-    default: "main"
+    default: "v3"
 
   sha256sum:
     description: 'Optional SHA256 checksum of the tarball when downloading the go-coverage-report binary.'
@@ -65,13 +65,12 @@ runs:
 
   steps:
   - name: Download go-coverage-report
-    uses: actions/setup-go@v5
-    with:
-      go-version: '1.24'
-  - name: Install report tool
     shell: bash
-    run: |
-      go clean -modcache && go install github.com/teamniteo/go-coverage-report/cmd/go-coverage-report@latest
+    id: download
+    run: $GITHUB_ACTION_PATH/scripts/cli-tool.sh "${{ inputs.version }}" "${{ inputs.sha256sum }}"
+    env:
+      RUNNER_OS: ${{ runner.os }}
+      RUNNER_ARCH: ${{ runner.arch }}
   - name: Determine changed files
     id: changed-files
     uses: tj-actions/changed-files@aa08304bd477b800d468db44fe10f6c61f7f7b11 # v42.1.0
