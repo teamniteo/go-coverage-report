@@ -149,3 +149,8 @@ fi
 
 gh pr comment "$GITHUB_PULL_REQUEST_NUMBER" --body-file=$COVERAGE_COMMENT_PATH
 end_group
+
+start_group "Output total coverage"
+TOTAL_COVERAGE=$(go-coverage-report -root="$ROOT_PACKAGE" -trim="$TRIM_PACKAGE" "$OLD_COVERAGE_PATH" "$NEW_COVERAGE_PATH" "$CHANGED_FILES_PATH" | grep "Total Coverage" | awk '{print $3}')
+echo "Total Coverage: $TOTAL_COVERAGE"
+end_group

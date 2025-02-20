@@ -27,6 +27,8 @@ func TestReport_Markdown(t *testing.T) {
 | github.com/fgrosse/prioqueue | 90.20% (**-9.80%**) | :thumbsdown: |
 | github.com/fgrosse/prioqueue/foo/bar | 0.00% (ø) |  |
 
+| **Total** | **90.20%** | |
+
 ---
 
 <details>
@@ -64,6 +66,8 @@ func TestReport_Markdown_OnlyChangedUnitTests(t *testing.T) {
 | Impacted Packages | Coverage Δ | :robot: |
 |-------------------|------------|---------|
 | github.com/fgrosse/prioqueue | 99.02% (**+8.82%**) | :thumbsup: |
+
+| **Total** | **99.02%** | |
 
 ---
 

@@ -89,7 +89,7 @@ func (r *Report) Markdown() string {
 	fmt.Fprintln(report, "|-------------------|------------|---------|")
 
 	oldCovPkgs := r.Old.ByPackage()
-	newCovPkgs := r.New.ByPackage()
+	newCovPkPkgs := r.New.ByPackage()
 	for _, pkg := range r.ChangedPackages {
 		var oldPercent, newPercent float64
 
@@ -109,6 +109,8 @@ func (r *Report) Markdown() string {
 			emoji,
 		)
 	}
+
+	fmt.Fprintln(report, "| **Total** | **%.2f%%** | |\n", r.New.Percent())
 
 	report.WriteString("\n")
 	r.addDetails(report)
