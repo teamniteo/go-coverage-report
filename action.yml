@@ -72,7 +72,6 @@ runs:
     shell: bash
     run: |
       go clean -modcache && go install github.com/teamniteo/go-coverage-report/cmd/go-coverage-report@latest
-      go-coverage-report --version
   - name: Determine changed files
     id: changed-files
     uses: tj-actions/changed-files@aa08304bd477b800d468db44fe10f6c61f7f7b11 # v42.1.0
