@@ -66,6 +66,8 @@ runs:
   steps:
   - name: Download go-coverage-report
     uses: actions/setup-go@v5
+    with:
+      go-version: '1.24'
   - name: Install report tool
     shell: bash
     run: |
