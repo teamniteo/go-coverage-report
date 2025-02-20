@@ -110,6 +110,8 @@ func (r *Report) Markdown() string {
 		)
 	}
 
+	fmt.Fprintf(report, "| **Total** | **%.2f%%** | |\n", r.New.Percent())
+
 	report.WriteString("\n")
 	r.addDetails(report)
 
