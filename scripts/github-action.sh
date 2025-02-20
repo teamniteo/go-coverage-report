@@ -149,4 +149,3 @@ fi
 
 gh pr comment "$GITHUB_PULL_REQUEST_NUMBER" --body-file=$COVERAGE_COMMENT_PATH
 end_group
-

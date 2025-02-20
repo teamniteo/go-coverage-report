@@ -104,7 +104,6 @@ func run(oldCovPath, newCovPath, changedFilesPath string, opts options) error {
 	switch strings.ToLower(opts.format) {
 	case "markdown":
 		fmt.Fprintln(os.Stdout, report.Markdown())
-		fmt.Fprintf(os.Stdout, "\nTotal Coverage: %.2f%%\n", newCov.Percent())
 	case "json":
 		fmt.Fprintln(os.Stdout, report.JSON())
 	default:
