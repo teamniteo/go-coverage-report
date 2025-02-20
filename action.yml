@@ -64,37 +64,36 @@ runs:
   using: "composite"
 
   steps:
-    - name: Download go-coverage-report
-      shell: bash
-      id: download
-      run: $GITHUB_ACTION_PATH/scripts/download-cli-tool.sh "${{ inputs.version }}" "${{ inputs.sha256sum }}"
-      env:
-        RUNNER_OS: ${{ runner.os }}
-        RUNNER_ARCH: ${{ runner.arch }}
+  - name: Download go-coverage-report
+    uses: actions/setup-go@v5
+  - name: Install report tool
+    shell: bash
+    run: |
+      go install github.com/teamniteo/go-coverage-report/cmd/go-coverage-report@${{ inputs.version }}
+      go-coverage-report --version
+  - name: Determine changed files
+    id: changed-files
+    uses: tj-actions/changed-files@aa08304bd477b800d468db44fe10f6c61f7f7b11 # v42.1.0
+    with:
+      write_output_files: true
+      json: true
+      files: |
+        **.go
+      files_ignore: |
+        vendor/**
 
-    - name: Determine changed files
-      id: changed-files
-      uses: tj-actions/changed-files@aa08304bd477b800d468db44fe10f6c61f7f7b11 # v42.1.0
-      with:
-        write_output_files: true
-        json: true
-        files: |
-          **.go
-        files_ignore: |
-          vendor/**
-
-    - name: Code coverage report
-      shell: bash
-      id: coverage
-      run: $GITHUB_ACTION_PATH/scripts/github-action.sh "${{ github.repository }}" "${{ github.event.pull_request.number }}" "${{ github.run_id }}"
-      env:
-        GH_REPO: ${{ github.repository }}
-        GH_TOKEN: ${{ github.token }}
-        GITHUB_BASELINE_WORKFLOW_REF: ${{ inputs.github-baseline-workflow-ref }}
-        TARGET_BRANCH: ${{ github.base_ref }}
-        CHANGED_FILES_PATH: .github/outputs/all_modified_files.json
-        COVERAGE_ARTIFACT_NAME: ${{ inputs.coverage-artifact-name }}
-        COVERAGE_FILE_NAME: ${{ inputs.coverage-file-name }}
-        ROOT_PACKAGE: ${{ inputs.root-package }}
-        SKIP_COMMENT: ${{ inputs.skip-comment }}
-        TRIM_PACKAGE: ${{ inputs.trim }}
+  - name: Code coverage report
+    shell: bash
+    id: coverage
+    run: $GITHUB_ACTION_PATH/scripts/github-action.sh "${{ github.repository }}" "${{ github.event.pull_request.number }}" "${{ github.run_id }}"
+    env:
+      GH_REPO: ${{ github.repository }}
+      GH_TOKEN: ${{ github.token }}
+      GITHUB_BASELINE_WORKFLOW_REF: ${{ inputs.github-baseline-workflow-ref }}
+      TARGET_BRANCH: ${{ github.base_ref }}
+      CHANGED_FILES_PATH: .github/outputs/all_modified_files.json
+      COVERAGE_ARTIFACT_NAME: ${{ inputs.coverage-artifact-name }}
+      COVERAGE_FILE_NAME: ${{ inputs.coverage-file-name }}
+      ROOT_PACKAGE: ${{ inputs.root-package }}
+      SKIP_COMMENT: ${{ inputs.skip-comment }}
+      TRIM_PACKAGE: ${{ inputs.trim }}
