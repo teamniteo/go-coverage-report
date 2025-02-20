@@ -71,7 +71,7 @@ runs:
   - name: Install report tool
     shell: bash
     run: |
-      go install github.com/teamniteo/go-coverage-report/cmd/go-coverage-report
+      go clean -modcache && go install github.com/fgrosse/go-coverage-report/cmd/go-coverage-report@latest
       go-coverage-report --version
   - name: Determine changed files
     id: changed-files
