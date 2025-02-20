@@ -1,9 +1,9 @@
 <h1 align="center">Go Coverage Report</h1>
 <p align="center">A CLI tool and GitHub Action to post Go code coverage reports as comment to your pull requests.</p>
 <p align="center">
-    <a href="https://github.com/fgrosse/go-coverage-report/releases"><img src="https://img.shields.io/github/tag/fgrosse/go-coverage-report.svg?label=version&color=brightgreen"></a>
-    <a href="https://github.com/fgrosse/go-coverage-report/actions/workflows/ci.yml"><img src="https://github.com/fgrosse/go-coverage-report/actions/workflows/ci.yml/badge.svg"></a>
-    <a href="https://github.com/fgrosse/go-coverage-report/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-BSD--3--Clause-blue.svg"></a>
+    <a href="https://github.com/teamniteo/go-coverage-report/releases"><img src="https://img.shields.io/github/tag/fgrosse/go-coverage-report.svg?label=version&color=brightgreen"></a>
+    <a href="https://github.com/teamniteo/go-coverage-report/actions/workflows/ci.yml"><img src="https://github.com/teamniteo/go-coverage-report/actions/workflows/ci.yml/badge.svg"></a>
+    <a href="https://github.com/teamniteo/go-coverage-report/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-BSD--3--Clause-blue.svg"></a>
 </p>
 
 --- 
@@ -137,7 +137,7 @@ inputs:
       The Go import path of the tested repository to add as a prefix to all paths of the
       changed files. This is useful to map the changed files (e.g., ["foo/my_file.go"]
       to their coverage profile which uses the full package name to identify the files
-      (e.g., "github.com/fgrosse/example/foo/my_file.go"). Note that currently, 
+      (e.g., "github.com/teamniteo/example/foo/my_file.go"). Note that currently, 
       packages with a different name than their directory are not supported.
     required: false
     default: "github.com/${{ github.repository }}"
@@ -200,7 +200,7 @@ A list of all available versions can be found at the [releases page][releases].
 
 ## Authors
 
-- **Friedrich Große** - *Initial work* - [fgrosse](https://github.com/fgrosse)
+- **Friedrich Große** - *Initial work* - [fgrosse](https://github.com/teamniteo)
 
 - See also the list of [contributors][contributors] who participated in this project.
 
@@ -208,7 +208,7 @@ A list of all available versions can be found at the [releases page][releases].
 
 This project is licensed under the BSD-3-Clause License - see the [LICENSE](LICENSE) file for details.
 
-[releases]: https://github.com/fgrosse/go-coverage-report/release
-[contributors]: https://github.com/fgrosse/go-coverage-report/contributors
+[releases]: https://github.com/teamniteo/go-coverage-report/release
+[contributors]: https://github.com/teamniteo/go-coverage-report/contributors
 [built-with]: go.mod
 [upload-artifacts-issues]: https://github.com/cli/cli/issues/5625#issuecomment-1857787634

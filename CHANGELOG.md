@@ -28,10 +28,10 @@ _Nothing yet_
 ## [v1.0.0] - 2024-03-18
 - Initial release
 
-[Unreleased]: https://github.com/fgrosse/go-coverage-report/compare/v1.2.0...HEAD
-[v1.2.0]: https://github.com/fgrosse/go-coverage-report/compare/v1.1.1...v1.2.0
-[v1.1.1]: https://github.com/fgrosse/go-coverage-report/compare/v1.1.0...v1.1.1
-[v1.1.0]: https://github.com/fgrosse/go-coverage-report/compare/v1.0.2...v1.1.0
-[v1.0.2]: https://github.com/fgrosse/go-coverage-report/compare/v1.0.1...v1.0.2
-[v1.0.1]: https://github.com/fgrosse/go-coverage-report/compare/v1.0.0...v1.0.1
-[v1.0.0]: https://github.com/fgrosse/go-coverage-report/releases/tag/v1.0.0
+[Unreleased]: https://github.com/teamniteo/go-coverage-report/compare/v1.2.0...HEAD
+[v1.2.0]: https://github.com/teamniteo/go-coverage-report/compare/v1.1.1...v1.2.0
+[v1.1.1]: https://github.com/teamniteo/go-coverage-report/compare/v1.1.0...v1.1.1
+[v1.1.0]: https://github.com/teamniteo/go-coverage-report/compare/v1.0.2...v1.1.0
+[v1.0.2]: https://github.com/teamniteo/go-coverage-report/compare/v1.0.1...v1.0.2
+[v1.0.1]: https://github.com/teamniteo/go-coverage-report/compare/v1.0.0...v1.0.1
+[v1.0.0]: https://github.com/teamniteo/go-coverage-report/releases/tag/v1.0.0

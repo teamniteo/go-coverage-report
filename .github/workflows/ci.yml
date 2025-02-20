@@ -67,4 +67,4 @@ jobs:
       - uses: ./
         with:
           version: local
-          trim: "github.com/fgrosse/go-coverage-report/"
+          trim: "github.com/teamniteo/go-coverage-report/"
