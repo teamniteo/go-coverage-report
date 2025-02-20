@@ -2,8 +2,14 @@
 
 set -e -o pipefail
 
-type gh > /dev/null 2>&1 || { echo >&2 'ERROR: Script requires "gh" (see https://cli.github.com)'; exit 1; }
-type go-coverage-report > /dev/null 2>&1 || { echo >&2 'ERROR: Script requires "go-coverage-report" binary in PATH'; exit 1; }
+type gh >/dev/null 2>&1 || {
+  echo >&2 'ERROR: Script requires "gh" (see https://cli.github.com)'
+  exit 1
+}
+type go-coverage-report >/dev/null 2>&1 || {
+  echo >&2 'ERROR: Script requires "go-coverage-report" binary in PATH'
+  exit 1
+}
 
 USAGE="$0: Execute go-coverage-report as GitHub action.
 
@@ -56,40 +62,46 @@ CHANGED_FILES_PATH=${CHANGED_FILES_PATH:-.github/outputs/all_modified_files.json
 SKIP_COMMENT=${SKIP_COMMENT:-false}
 
 if [[ -z ${GITHUB_REPOSITORY+x} ]]; then
-    echo "Missing github_repository argument"
-    exit 1
+  echo "Missing github_repository argument"
+  exit 1
 fi
 
 if [[ -z ${GITHUB_PULL_REQUEST_NUMBER+x} ]]; then
-    echo "Missing github_pull_request_number argument"
-    exit 1
+  echo "Missing github_pull_request_number argument"
+  exit 1
 fi
 
 if [[ -z ${GITHUB_RUN_ID+x} ]]; then
-    echo "Missing github_run_id argument"
-    exit 1
+  echo "Missing github_run_id argument"
+  exit 1
 fi
 
 if [[ -z ${GITHUB_OUTPUT+x} ]]; then
-    echo "Missing GITHUB_OUTPUT environment variable"
-    exit 1
+  echo "Missing GITHUB_OUTPUT environment variable"
+  exit 1
 fi
 
 # If GITHUB_BASELINE_WORKFLOW_REF is defined, extract the workflow file path from it and use it instead of GITHUB_BASELINE_WORKFLOW
 if [[ -n ${GITHUB_BASELINE_WORKFLOW_REF+x} ]]; then
-    GITHUB_BASELINE_WORKFLOW=$(basename "${GITHUB_BASELINE_WORKFLOW_REF%%@*}")
+  GITHUB_BASELINE_WORKFLOW=$(basename "${GITHUB_BASELINE_WORKFLOW_REF%%@*}")
 fi
 
 export GH_REPO="$GITHUB_REPOSITORY"
 
-start_group(){
-    echo "::group::$*"
-    { set -x; return; } 2>/dev/null
+start_group() {
+  echo "::group::$*"
+  {
+    set -x
+    return
+  } 2>/dev/null
 }
 
-end_group(){
-    { set +x; return; } 2>/dev/null
-    echo "::endgroup::"
+end_group() {
+  {
+    set +x
+    return
+  } 2>/dev/null
+  echo "::endgroup::"
 }
 
 start_group "Download code coverage results from current run"
@@ -112,12 +124,12 @@ end_group
 
 start_group "Compare code coverage results"
 go-coverage-report \
-    -root="$ROOT_PACKAGE" \
-    -trim="$TRIM_PACKAGE" \
-    "$OLD_COVERAGE_PATH" \
-    "$NEW_COVERAGE_PATH" \
-    "$CHANGED_FILES_PATH" \
-  > $COVERAGE_COMMENT_PATH
+  -root="$ROOT_PACKAGE" \
+  -trim="$TRIM_PACKAGE" \
+  "$OLD_COVERAGE_PATH" \
+  "$NEW_COVERAGE_PATH" \
+  "$CHANGED_FILES_PATH" \
+  >$COVERAGE_COMMENT_PATH
 end_group
 
 if [ ! -s $COVERAGE_COMMENT_PATH ]; then
@@ -131,7 +143,7 @@ echo "Writing GitHub output parameter to \"$GITHUB_OUTPUT\""
   echo "coverage_report<<END_OF_COVERAGE_REPORT"
   cat "$COVERAGE_COMMENT_PATH"
   echo "END_OF_COVERAGE_REPORT"
-} >> "$GITHUB_OUTPUT"
+} >>"$GITHUB_OUTPUT"
 
 if [ "$SKIP_COMMENT" = "true" ]; then
   echo "Skipping pull request comment (\$SKIP_COMMENT=true))"
@@ -142,10 +154,9 @@ start_group "Comment on pull request"
 COMMENT_ID=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${GITHUB_PULL_REQUEST_NUMBER}/comments" -q '.[] | select(.user.login=="github-actions[bot]" and (.body | test("Coverage Δ")) ) | .id' | head -n 1)
 if [ -z "$COMMENT_ID" ]; then
   echo "Creating new coverage report comment"
+  gh pr comment "$GITHUB_PULL_REQUEST_NUMBER" --body-file="$COVERAGE_COMMENT_PATH"
 else
-  echo "Replacing old coverage report comment"
-  gh api -X DELETE "repos/${GITHUB_REPOSITORY}/issues/comments/${COMMENT_ID}"
+  echo "Updating old coverage report comment"
+  gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${COMMENT_ID}" -f body="$(cat "$COVERAGE_COMMENT_PATH")"
 fi
-
-gh pr comment "$GITHUB_PULL_REQUEST_NUMBER" --body-file=$COVERAGE_COMMENT_PATH
 end_group
